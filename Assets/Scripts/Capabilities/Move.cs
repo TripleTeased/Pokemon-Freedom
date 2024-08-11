@@ -22,6 +22,9 @@ public class Move : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private CollisionDataRetriever _collisionDataRetriever;
 
+    public AudioClip gameStart;
+    AudioSource audioSource;
+
     private float maxSpeedChange;
     private float acceleration;
     private bool onGround;
@@ -32,7 +35,11 @@ public class Move : MonoBehaviour
         animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
+        audioSource = GetComponent<AudioSource>();
+
         _controller = GetComponent<Controller>();
+
+        audioSource.PlayOneShot(gameStart, 0.7f);
     }
 
 
@@ -80,6 +87,11 @@ public class Move : MonoBehaviour
         //onGround = _collisionDataRetriever.GetOnGround();
 
         velocity = body.velocity;
+
+/*        if (Input.GetButton("Shift"))
+            maxSpeed = 100f;
+        else
+            maxSpeed = 4f;*/
 
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
         maxSpeedChange = maxAirAcceleration * Time.deltaTime;
